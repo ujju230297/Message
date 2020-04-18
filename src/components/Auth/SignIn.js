@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import firebase from '../../firebase/firebase'
+
 class SignIn extends Component {
     state = {
         email:'',
@@ -14,6 +16,19 @@ class SignIn extends Component {
         e.preventDefault();
         console.log(this.state);
     }
+    
+    login = () => {
+
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(()=>{
+                console.log('Signup successful.')
+            })          
+            .catch((error)=> {
+                console.log(error.code)
+                console.log(error.message)
+            })
+    }
+
     render() {
         return (
             <div className="container">
@@ -28,7 +43,8 @@ class SignIn extends Component {
                     <input type="password" id="password" onChange={this.handleChange} />
                 </div>
                 <div className="input-field">
-                    <button className="btn pink lighten-1 z-depth-0">Login</button>
+                    <button className="btn pink lighten-1 z-depth-0"
+                        onClick={() => login()} >Login</button>
                 </div>
                 </form>
             </div>

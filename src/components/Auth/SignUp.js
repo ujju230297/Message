@@ -17,6 +17,32 @@ class SignUp extends Component {
         e.preventDefault();
         console.log(this.state)
     }
+
+    signUp = () => {
+
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(()=>{
+                console.log('Signup successful.')
+                const databaseRef = firebase.database().ref(`users`)
+
+                databaseRef.once('value')
+                    .then((snapshot) => {
+                            let users = snapshot.val()
+                            console.log(users)
+                            const userDetails = {
+                                email: this.state.email,
+                                firstName: this.state.firstName,
+                                lastName: this.state.lastName,
+                            }
+                            users.push(userDetails)
+                        })
+            })          
+            .catch((error)=> {
+                console.log(error.code)
+                console.log(error.message)
+            })
+    }
+
     render() {
         return (
             <div className="container">
@@ -35,11 +61,12 @@ class SignUp extends Component {
                     <input type="text" id="firstName" onChange={this.handleChange} />
                 </div>
                 <div className="input-field">
-                    <label htmlFor="lastname">Last name</label>
-                    <input type="text" id="lastname" onChange={this.handleChange} />
+                    <label htmlFor="lastName">Last name</label>
+                    <input type="text" id="lastName" onChange={this.handleChange} />
                 </div>
                 <div className="input-field">
-                    <button className="btn pink lighten-1 z-depth-0">Login</button>
+                    <button className="btn pink lighten-1 z-depth-0"
+                        onClick={() => this.signUp()} >Login</button>
                 </div>
                 </form>
             </div>
