@@ -44,7 +44,7 @@ class SignIn extends Component {
                 </div>
                 <div className="input-field">
                     <button className="btn pink lighten-1 z-depth-0"
-                        onClick={() => login()} >Login</button>
+                        onClick={() => this.login()} >Login</button>
                 </div>
                 </form>
             </div>
